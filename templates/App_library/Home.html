@@ -1,0 +1,19 @@
+{% extends 'App_library/app.html' %}
+{% load static %}
+{% block body %}
+    <img src="{% static 'image/front-image.jpg' %}" alt="front-icon">
+    <div class="main-header-details">
+        <p>
+            Created by - Sami & Samia
+        </p>
+        <h1>Library Management System</h1>
+        {% if user.is_authenticated %}
+            Welcome to the. Now you are logged in.
+        {% else %}
+            You have to be a author of the library. Librarians, Faculties, Principal are allowed to login.
+            <a href="{% url 'App_login:login' %}">
+                <button class="btn btn-brown">Login Now</button>
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}

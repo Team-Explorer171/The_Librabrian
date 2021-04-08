@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library app | Login</title>
+    {% include 'App_login/stylesheets.html' %}
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3" style="margin-top: 7%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Login here</div>
+                <div class="panel-body">
+                    <form class="form-horizontal" id="login_form" action="{% url 'App_login:login' %}" method="post">
+
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="title">Email: </label>
+                            <div class="col-md-7">
+                                <input name="email" type="email" id="id_email" placeholder="Write Your Email"
+                                       class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="title">Password: </label>
+                            <div class="col-md-7">
+                                <input name="password" type="password" id="id_password" placeholder="password"
+                                       class="form-control" required>
+                                <input type="checkbox" onclick="passToText()"> see password
+                            </div>
+                        </div>
+
+                        <!-- Form actions -->
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-success">Login!</button>
+                        </div>
+                        <div>
+                            <a href="{% url 'App_login:forget-passwd' %}">Forget Password</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let passwd = document.getElementById('id_password');
+        passwd.type = 'password';
+
+        function passToText() {
+            if (passwd.type === 'password') {
+                passwd.type = 'text';
+            } else {
+                passwd.type = 'password';
+            }
+        }
+    </script>
+    {% include 'App_login/javascripts.html' %}
+</div>
+</body>
+</html>

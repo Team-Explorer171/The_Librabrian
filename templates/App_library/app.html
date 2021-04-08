@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <title>LMS</title>
+</head>
+<body>
+<input type="checkbox" id="nav-toggler" style="display: none;">
+<div class="nav-bar">
+    <h1 class="web-title">
+        <a href="{% url 'App_library:home' %}">
+            <i>|</i>
+            <div>
+                <span><i>L</i>ibrary</span>
+            </div>
+            <i>|</i>
+        </a>
+    </h1>
+    <label for="nav-toggler">
+        <i class="fas fa-bars"></i>
+    </label>
+</div>
+<div class="side-bar" data-open="false">
+    <ul class="navbar-options">
+        {% if user.is_authenticated %}
+            <li class="navbar-item"><a href="{% url 'App_library:books' %}">Books</a></li>
+            <li class="navbar-item"><a href="{% url 'App_library:students' %}">Students</a></li>
+            <li class="navbar-item"><a href="{% url 'App_library:borrow' %}">Borrowing Book</a></li>
+            <li class="navbar-item"><a href="{% url 'App_library:returning' %}">Returning Book</a></li>
+            <li class="navbar-item"><a href="{% url 'App_library:categories' %}">Category</a></li>
+            <li class="navbar-item">
+                <hr style="border: none; border-bottom: 2px solid #E4D1B0;">
+            </li>
+            <li class="navbar-item" id="login">
+                <button class="btn btn-light"><a href="{% url 'App_login:logout' %}">logout</a></button>
+            </li>
+        {% else %}
+            <li class="navbar-item">
+                <hr style="border: none; border-bottom: 2px solid #E4D1B0;">
+            </li>
+            <li class="navbar-item" id="login">
+                <button class="btn btn-light" href="{% url 'App_login:login' %}">
+                    <a href="{% url 'App_login:login' %}">login</a>
+                </button>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+<section class="front-main">
+    {% block body %}
+    {% endblock %}
+</section>
+
+<!------- JavaScript ------->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/popper.min.js' %}"
+        integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"
+        integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'js/b6f67b378e.js' %}"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+{% extends 'App_library/app.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% load custom_filters %}
+{% block body %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        .paddy {
+            padding: 10px !important;
+            text-align: center !important;
+        }
+    </style>
+
+    <div class="container" style="padding: 90px 0 90px 0 !important;" id="table-div">
+        <div class="h1" id="header">All Books</div>
+        <button type="button" id="add_book" class="btn btn-success bg-dark"
+                style="padding: 10px!important; background-color: #5cb85c!important; margin: 10px 0 10px 0 !important;"
+                onclick="openForm()">
+            Add New Book
+        </button>
+        <!------ Bootstrap 5 Table Starts --------->
+        <table class="table table-hover" id="book-table">
+            <thead>
+            <tr style="text-align: center;">
+                <th scope="col" class="paddy">Book Title</th>
+                <hr>
+                <th scope="col" class="paddy">Category</th>
+                <hr>
+                <th scope="col" class="paddy">Author</th>
+                <hr>
+                <th scope="col" class="paddy">Description</th>
+                <hr>
+                <th scope="col" class="paddy">Available</th>
+                <hr>
+                <th scope="col" class="paddy">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if books %}
+                {% for book in books %}
+                    <tr style="text-align: center;">
+                        <td class="paddy">{{ book.title }}</td>
+                        <td class="paddy">{{ book.categories }}</td>
+                        <td class="paddy">{{ book.author }}</td>
+                        <td class="paddy">{{ book.description|range_filter|linebreaks }}</td>
+                        <td class="paddy">{{ book.available }}</td>
+                        <td class="paddy"><a class="btn btn-danger delbook_id"
+                                             href="{% url 'App_library:delete_book' book.id %}"
+                                             style="color: #c9302c!important;">Delete</a> /
+                            <a href="{% url 'App_library:edit_book' pk=book.pk %}" data-id="{{ book.id }}"
+                               class="btn btn-warning editButton ebook_id" style="color: #66afe9!important;">
+                                Edit</a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+        <!------ Table Ends ------->
+        <div id="book_form" style="display:none;">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-lg-10">
+                    <form id="form" method="POST" action="{% url 'App_library:books' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <legend style="text-align: center; font-size: 30px; font-weight: 600;">New Book Form</legend>
+                        <fieldset class="form-group">
+                            {{ form|crispy }}
+                        </fieldset>
+                        <button name="save_book" id="save_book" type="submit" class="btn btn-primary mt-3"
+                                style="background: #5cb85c!important; padding: 10px!important;"><span
+                                class="glyphicon glyphicon-save"></span>
+                            Submit
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </div>
+    {% include 'App_library/footer.html' %}
+
+    <!----- JavaScript ----->
+    <script>
+        let bookForm = document.getElementById('book_form');
+        let booktable = document.getElementById('book-table');
+
+        function openForm() {
+            booktable.style.display = 'none';
+            bookForm.style.display = 'block';
+            document.getElementById('header').style.display = 'none';
+            document.getElementById('add_book').style.display = 'none';
+        }
+    </script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"
+            integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/popper.min.js' %}"
+            integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"
+            integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+            crossorigin="anonymous"></script>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'App_library/app.html' %}
+{% load static %}
+{% block body %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"
+            integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/popper.min.js' %}"
+            integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"
+            integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+            crossorigin="anonymous"></script>
+    <style>
+        .paddy {
+            padding: 10px !important;
+            text-align: center;
+        }
+    </style>
+    <div class="container" style="padding: 100px!important;">
+        <div class="h1" id="header" style="text-align: center; padding: 10px 0;">All Students</div>
+        <a href="#" id="add_student" class="btn btn-success m-3" onclick="openForm()"
+           style="padding: 10px!important; background-color: #5cb85c!important;">
+            Add new student
+        </a>
+        <table class="table" id="student-table">
+            <thead class="table-striped">
+            <tr>
+                <th scope="col" class="paddy">Student ID</th>
+                <th scope="col" class="paddy">First name</th>
+                <th scope="col" class="paddy">Last name</th>
+                <th scope="col" class="paddy">Department</th>
+                <th scope="col" class="paddy">Section</th>
+                <th scope="col" class="paddy">Year</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for student in students %}
+                <tr>
+                    <td class="paddy">{{ student.student_id }}</td>
+                    <td class="paddy">{{ student.firstname }}</td>
+                    <td class="paddy">{{ student.lastname }}</td>
+                    <td class="paddy">{{ student.department }}</td>
+                    <td class="paddy">{{ student.section }}</td>
+                    <td class="paddy">{{ student.year }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div id="edit_form"></div>
+        <div id="student_form" style="display:none;">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-lg-10">
+                    <form id="form" method="POST" action="{% url 'App_library:students' %}">
+                        {% csrf_token %}
+                        <legend style="font-size: 30px; font-weight: 600; text-align: center;">Student Form</legend>
+                        <fieldset class="form-group">
+                            <label>Student ID:</label>
+                            <input type="text" name="sid" required="required" class="form-control"/>
+                        </fieldset>
+                        <div class="form-group">
+                            <label>First name:</label>
+                            <input type="text" name="firstname" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Last name:</label>
+                            <input type="text" name="lastname" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Department:</label>
+                            <input type="text" name="department" class="form-control" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Section:</label>
+                            <input type="text" name="section" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Year:</label>
+                            <input type="text" name="year" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <button name="save_book" id="save_book" type="submit" class="btn btn-primary mt-2"
+                                    style="background: #5cb85c!important; padding: 10px!important;"><span
+                                    class="glyphicon glyphicon-save"></span>
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </div>
+    {% include 'App_library/footer.html' %}
+
+    <!------ JavaScript ------>
+    <script>
+        let studentForm = document.getElementById('student_form');
+        let studenttable = document.getElementById('student-table');
+
+        function openForm() {
+            studenttable.style.display = 'none';
+            studentForm.style.display = 'block';
+            document.getElementById('header').style.display = 'none';
+            document.getElementById('add_student').style.display = 'none';
+        }
+    </script>
+{% endblock %}
